@@ -1,0 +1,872 @@
+/* ==========================================================================
+   Drive Portal — Style System
+   Inspired by Google Drive & Google Workspace
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. CSS Custom Properties / Color Variables
+   -------------------------------------------------------------------------- */
+:root {
+  /* Google Workspace Brand Colors */
+  --google-blue: #1a73e8;
+  --google-blue-hover: #1557b0;
+  --google-blue-surface: #e8f0fe;
+  
+  --google-green: #1e8e3e;
+  --google-green-hover: #137333;
+  --google-green-surface: #e6f4ea;
+  
+  --google-yellow: #f9ab00;
+  --google-yellow-dark: #b06000;
+  --google-yellow-surface: #fef7e0;
+  
+  --google-red: #d93025;
+  --google-red-surface: #fce8e6;
+
+  /* Light Mode Palette */
+  --bg-primary: #f8fafd;
+  --bg-surface: #ffffff;
+  --bg-surface-elevated: #ffffff;
+  --bg-subtle: #f1f3f4;
+  --bg-hover: #f1f3f4;
+  
+  --border-color: #dadce0;
+  --border-subtle: #e8eaed;
+  
+  --text-primary: #202124;
+  --text-secondary: #5f6368;
+  --text-tertiary: #80868b;
+  --text-inverse: #ffffff;
+
+  /* Card specific accents (Light Mode) */
+  --private-accent: #1a73e8;
+  --private-bg: #e8f0fe;
+  --private-btn: #1a73e8;
+  --private-btn-hover: #1557b0;
+  --private-btn-text: #ffffff;
+
+  --viewer-accent: #1e8e3e;
+  --viewer-bg: #e6f4ea;
+  --viewer-btn: #1e8e3e;
+  --viewer-btn-hover: #137333;
+  --viewer-btn-text: #ffffff;
+
+  --editor-accent: #d97706;
+  --editor-bg: #fef3c7;
+  --editor-btn: #d97706;
+  --editor-btn-hover: #b45309;
+  --editor-btn-text: #ffffff;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+  --shadow-md: 0 2px 6px 2px rgba(60, 64, 67, 0.15);
+  --shadow-lg: 0 4px 12px 0 rgba(60, 64, 67, 0.15);
+  --shadow-hover: 0 4px 16px rgba(32, 33, 36, 0.12), 0 1px 3px rgba(32, 33, 36, 0.08);
+
+  /* Dimensions & Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+  --header-height: 68px;
+  --max-content-width: 1140px;
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
+  --transition-theme: background-color 300ms ease, border-color 300ms ease, color 300ms ease, box-shadow 300ms ease;
+}
+
+/* --------------------------------------------------------------------------
+   2. Dark Mode Overrides
+   -------------------------------------------------------------------------- */
+[data-theme="dark"] {
+  --bg-primary: #121212;
+  --bg-surface: #1e1e1e;
+  --bg-surface-elevated: #282828;
+  --bg-subtle: #2d2e30;
+  --bg-hover: #35363a;
+  
+  --border-color: #3c4043;
+  --border-subtle: #303134;
+  
+  --text-primary: #e8eaed;
+  --text-secondary: #9aa0a6;
+  --text-tertiary: #80868b;
+  --text-inverse: #202124;
+
+  /* Card specific accents (Dark Mode) */
+  --private-accent: #8ab4f8;
+  --private-bg: rgba(138, 180, 248, 0.12);
+  --private-btn: #8ab4f8;
+  --private-btn-hover: #aecbfa;
+  --private-btn-text: #202124;
+
+  --viewer-accent: #81c995;
+  --viewer-bg: rgba(129, 201, 149, 0.12);
+  --viewer-btn: #81c995;
+  --viewer-btn-hover: #a8dab5;
+  --viewer-btn-text: #202124;
+
+  --editor-accent: #fdd663;
+  --editor-bg: rgba(253, 214, 99, 0.12);
+  --editor-btn: #fdd663;
+  --editor-btn-hover: #fee488;
+  --editor-btn-text: #202124;
+
+  /* Dark mode shadows */
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 6px 16px 0 rgba(0, 0, 0, 0.5);
+  --shadow-hover: 0 6px 20px rgba(0, 0, 0, 0.6);
+}
+
+/* --------------------------------------------------------------------------
+   3. Global Reset & Base
+   -------------------------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: var(--transition-theme);
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: var(--transition-theme);
+  overflow-x: hidden;
+}
+
+/* Accessible focus ring */
+:focus-visible {
+  outline: 2px solid var(--google-blue);
+  outline-offset: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   4. Header & Navigation
+   -------------------------------------------------------------------------- */
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--bg-surface);
+  border-bottom: 1px solid var(--border-color);
+  height: var(--header-height);
+  transition: var(--transition-theme);
+}
+
+.header-container {
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+  height: 100%;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  user-select: none;
+}
+
+.brand-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+}
+
+.drive-logo-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.brand-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--google-blue);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+[data-theme="dark"] .brand-badge {
+  color: var(--private-accent);
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Theme Toggle Button */
+.btn-icon {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-full);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.btn-icon:hover {
+  background-color: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.btn-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Toggle icon display based on theme */
+[data-theme="light"] .sun-icon {
+  display: none;
+}
+[data-theme="light"] .moon-icon {
+  display: block;
+}
+[data-theme="dark"] .sun-icon {
+  display: block;
+}
+[data-theme="dark"] .moon-icon {
+  display: none;
+}
+
+
+/* --------------------------------------------------------------------------
+   5. Main Content & Hero Section
+   -------------------------------------------------------------------------- */
+.main-content {
+  flex: 1;
+  max-width: var(--max-content-width);
+  width: 100%;
+  margin: 0 auto;
+  padding: 40px 24px 64px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.hero-section {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto;
+  animation: fadeInDown 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-full);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+  transition: var(--transition-theme);
+}
+
+.hero-tag svg {
+  width: 16px;
+  height: 16px;
+  color: var(--google-blue);
+}
+
+[data-theme="dark"] .hero-tag svg {
+  color: var(--private-accent);
+}
+
+.hero-title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+}
+
+.hero-description {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.highlight-name {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* --------------------------------------------------------------------------
+   6. Directories Grid & Cards
+   -------------------------------------------------------------------------- */
+.directories-section {
+  animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.1s backwards;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.drive-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal), border-color var(--transition-normal), var(--transition-theme);
+}
+
+.drive-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--border-subtle);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.card-icon-wrapper {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--transition-fast);
+}
+
+.drive-card:hover .card-icon-wrapper {
+  transform: scale(1.05);
+}
+
+.card-icon-wrapper svg {
+  width: 26px;
+  height: 26px;
+}
+
+/* Card Badge */
+.badge-access {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+}
+
+/* Private Card Styling */
+.card-private .card-icon-wrapper {
+  background-color: var(--private-bg);
+  color: var(--private-accent);
+}
+.badge-private {
+  background-color: var(--private-bg);
+  color: var(--private-accent);
+}
+
+/* Viewer Card Styling */
+.card-viewer .card-icon-wrapper {
+  background-color: var(--viewer-bg);
+  color: var(--viewer-accent);
+}
+.badge-viewer {
+  background-color: var(--viewer-bg);
+  color: var(--viewer-accent);
+}
+
+/* Editor Card Styling */
+.card-editor .card-icon-wrapper {
+  background-color: var(--editor-bg);
+  color: var(--editor-accent);
+}
+.badge-editor {
+  background-color: var(--editor-bg);
+  color: var(--editor-accent);
+}
+
+/* Card Body */
+.card-body {
+  flex: 1;
+  margin-bottom: 24px;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+  letter-spacing: -0.01em;
+}
+
+.card-desc {
+  font-size: 0.925rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+
+/* Card Buttons */
+.card-footer {
+  margin-top: auto;
+}
+
+.btn-drive {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 18px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.btn-drive svg {
+  width: 16px;
+  height: 16px;
+  transition: transform var(--transition-fast);
+}
+
+.btn-drive:hover svg {
+  transform: translate(2px, -2px);
+}
+
+.btn-drive:active {
+  transform: scale(0.98);
+}
+
+.btn-primary {
+  background-color: var(--private-btn);
+  color: var(--private-btn-text);
+}
+.btn-primary:hover {
+  background-color: var(--private-btn-hover);
+}
+
+.btn-viewer {
+  background-color: var(--viewer-btn);
+  color: var(--viewer-btn-text);
+}
+.btn-viewer:hover {
+  background-color: var(--viewer-btn-hover);
+}
+
+.btn-editor {
+  background-color: var(--editor-btn);
+  color: var(--editor-btn-text);
+}
+.btn-editor:hover {
+  background-color: var(--editor-btn-hover);
+}
+
+/* --------------------------------------------------------------------------
+   7. Contact Section
+   -------------------------------------------------------------------------- */
+.contact-section {
+  animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.2s backwards;
+}
+
+.contact-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 24px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-theme);
+}
+
+.contact-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  background-color: var(--bg-subtle);
+  color: var(--google-blue);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: var(--transition-theme);
+}
+
+[data-theme="dark"] .contact-icon {
+  color: var(--private-accent);
+}
+
+.contact-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.contact-text {
+  flex: 1;
+}
+
+.contact-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.contact-desc {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.btn-contact {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+}
+
+.btn-contact svg {
+  width: 16px;
+  height: 16px;
+  color: var(--google-blue);
+}
+
+[data-theme="dark"] .btn-contact svg {
+  color: var(--private-accent);
+}
+
+.btn-contact:hover {
+  background-color: var(--bg-hover);
+  border-color: var(--text-secondary);
+}
+
+.btn-contact:active {
+  transform: scale(0.98);
+}
+
+/* --------------------------------------------------------------------------
+   8. Footer
+   -------------------------------------------------------------------------- */
+.app-footer {
+  background-color: var(--bg-surface);
+  border-top: 1px solid var(--border-color);
+  padding: 20px 0;
+  margin-top: auto;
+  transition: var(--transition-theme);
+}
+
+.footer-container {
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  gap: 16px;
+}
+
+.footer-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-copy {
+  font-weight: 500;
+}
+
+.footer-brand {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.footer-subtitle {
+  color: var(--text-tertiary);
+}
+
+/* --------------------------------------------------------------------------
+   9. Toast Notifications
+   -------------------------------------------------------------------------- */
+.toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 380px;
+  pointer-events: none;
+}
+
+.toast {
+  pointer-events: auto;
+  background-color: var(--bg-surface-elevated);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  animation: toastIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.toast.toast-hiding {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.toast-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.toast-warning .toast-icon {
+  color: var(--google-yellow-dark);
+}
+
+[data-theme="dark"] .toast-warning .toast-icon {
+  color: var(--editor-accent);
+}
+
+.toast-content {
+  flex: 1;
+}
+
+.toast-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.toast-message {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.toast-close {
+  background: transparent;
+  border: none;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  padding: 0;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 4px;
+  transition: color var(--transition-fast);
+}
+
+.toast-close:hover {
+  color: var(--text-primary);
+}
+
+/* --------------------------------------------------------------------------
+   10. Animations
+   -------------------------------------------------------------------------- */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes toastIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Respect user's motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   11. Responsive Breakpoints
+   -------------------------------------------------------------------------- */
+
+/* Tablet (max-width: 960px) */
+@media (max-width: 960px) {
+  .cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  /* Make the 3rd card span full width on 2-col layout */
+  .drive-card:last-child {
+    grid-column: span 2;
+  }
+  
+  .hero-title {
+    font-size: 1.875rem;
+  }
+}
+
+/* Small Tablet & Mobile (max-width: 680px) */
+@media (max-width: 680px) {
+  .header-container {
+    padding: 0 16px;
+  }
+
+  .brand-badge {
+    display: none; /* Keep header compact on mobile */
+  }
+
+
+  .main-content {
+    padding: 24px 16px 48px 16px;
+    gap: 32px;
+  }
+
+  .hero-title {
+    font-size: 1.5rem;
+  }
+
+  .hero-description {
+    font-size: 0.9375rem;
+  }
+
+  .cards-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .drive-card:last-child {
+    grid-column: span 1;
+  }
+
+  .drive-card {
+    padding: 20px 18px;
+  }
+
+  .contact-card {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px 18px;
+  }
+
+  .contact-action {
+    width: 100%;
+  }
+
+  .btn-contact {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .footer-container {
+    flex-direction: column;
+    text-align: center;
+    gap: 8px;
+  }
+
+  .toast-container {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    max-width: none;
+  }
+}
